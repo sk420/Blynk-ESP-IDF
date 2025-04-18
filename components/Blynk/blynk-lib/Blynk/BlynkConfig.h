@@ -19,10 +19,10 @@
 #ifdef BLYNK_TEMPLATE_ID
 #define BLYNK_DEFAULT_DOMAIN     "blynk.cloud"
 #else
-#define BLYNK_DEFAULT_DOMAIN     "protocol.electrocus.com"
+#define BLYNK_DEFAULT_DOMAIN     "blynk-cloud
 #endif
 
-#define BLYNK_DEFAULT_PORT       8080
+#define BLYNK_DEFAULT_PORT       80
 #define BLYNK_DEFAULT_PORT_SSL   443
 
 /***************************************************

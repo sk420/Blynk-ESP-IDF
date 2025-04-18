@@ -12,7 +12,7 @@
 #include "BlynkApiEsp32.h"
 #include "BlynkSocketEsp32.h"
 
-#define BLYNK_TOKEN "4huy-J3UAzCmrBkz-z_Mprb5UR1a6t1z"
+#define BLYNK_TOKEN "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // Replace with your Blynk token
 
 static BlynkTransportEsp32 _blynkTransport;
 static BlynkSocket Blynk(_blynkTransport);
@@ -73,8 +73,7 @@ extern "C" void app_main(void)
     wifi_init_sta("Wokwi-GUEST", "");
     vTaskDelay(pdMS_TO_TICKS(10));
 
-    Blynk.begin(BLYNK_TOKEN, "protocol.electrocus.com", 8080);
-
+    Blynk.begin(BLYNK_TOKEN, "server", 80);
 
     terminal.clear();
     terminal.println("Hello from ESP32-IDF ");
