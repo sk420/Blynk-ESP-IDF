@@ -31,7 +31,7 @@ public:
         if (server == NULL)
         {
 #ifdef BLYNK_DEBUG
-            BLYNK_LOG2("DNS resolution failed for %s", domain);
+            BLYNK_LOG2("DNS resolution failed for ", domain);
 #endif
             return false;
         }
@@ -49,7 +49,7 @@ public:
         if (sockfd < 0)
         {
 #ifdef BLYNK_DEBUG
-            BLYNK_LOG2("Failed to create socket: errno=%d", errno);
+            BLYNK_LOG2("Failed to create socket: ", errno);
 #endif
             return false;
         }
@@ -58,7 +58,7 @@ public:
         if (res < 0)
         {
 #ifdef BLYNK_DEBUG
-            BLYNK_LOG2("Socket connect failed: errno=%d", errno);
+            BLYNK_LOG2("Socket connect failed: ", errno);
 #endif
             ::close(sockfd);
             sockfd = -1;
@@ -117,12 +117,12 @@ public:
         if (wlen < 0)
         {
 #ifdef BLYNK_DEBUG
-            BLYNK_LOG2("Send error: errno=%d", errno);
+            BLYNK_LOG2("Send error: ", errno);
 #endif
             return 0;
         }
 #ifdef BLYNK_DEBUG
-        BLYNK_LOG1("Sent %d bytes", (int)wlen);
+        BLYNK_LOG3("Sent ", (int)wlen, "bytes");
 #endif
         return wlen;
     }
@@ -181,5 +181,12 @@ public:
     {
         Base::begin(auth);
         this->conn.begin(domain, port);
+        const int maxRetries = 500; // 500 x 10ms = ~5 seconds timeout
+        int retry = 0;
+        while (!this->connected() && retry++ < maxRetries)
+        {
+            this->run();
+            vTaskDelay(pdMS_TO_TICKS(10));
+        }
     }
 };

@@ -6,7 +6,7 @@
 #include "wifi_connect.h"
 
 // #define BLYNK_DEBUG
-#define BLYNK_PRINT stdout
+// #define BLYNK_PRINT stdout
 #define BLYNK_NO_BUILTIN
 
 #include "BlynkApiEsp32.h"
