@@ -1,0 +1,9 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPath": "/home/codespace/esp/v5.3.1/esp-idf",
+    "idf.pythonInstallPath": "/home/codespace/.python/current/bin/python",
+    "idf.openOcdConfigs": [
+        "board/esp32-bridge.cfg"
+    ],
+    "idf.toolsPath": "/home/codespace/.espressif"
+}
