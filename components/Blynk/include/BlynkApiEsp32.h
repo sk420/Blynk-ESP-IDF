@@ -1,5 +1,5 @@
-#ifndef BlynkApiLinux_h
-#define BlynkApiLinux_h
+#ifndef BlynkApiEsp32_h
+#define BlynkApiEsp32_h
 
 #include <Blynk/BlynkApi.h>
 

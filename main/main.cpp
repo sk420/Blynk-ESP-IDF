@@ -4,6 +4,7 @@
 #include "esp_log.h"
 #include "wifi_connect.h"
 
+// #define BLYNK_DEBUG
 #define BLYNK_PRINT stdout
 #define BLYNK_NO_BUILTIN
 
