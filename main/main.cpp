@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
@@ -18,7 +19,43 @@ static BlynkSocket Blynk(_blynkTransport);
 
 #include <BlynkWidgets.h>
 
-BlynkTimer tmr;
+BlynkTimer timer;
+WidgetTerminal terminal(V0);
+
+BLYNK_WRITE(V0)
+{
+  std::string receivedCommand = param.asStr();
+     
+  terminal.print("Received Command: ");
+  terminal.println(receivedCommand);
+
+  if (receivedCommand == "help")
+  {
+    terminal.println("Available Commands:");
+    terminal.println("- cpu: Get current cpu temperature");
+    terminal.println("- status: Check device status");
+    terminal.println("- restart: Restart the device");
+    terminal.println("- clear: Clear the terminal");
+  }
+
+  else if (receivedCommand == "restart")
+  {
+    terminal.println("System Restarting");
+    terminal.flush();
+    vTaskDelay(pdMS_TO_TICKS(100)); // Wait for a second before restarting
+    esp_restart();
+  }
+  else if (receivedCommand == "clear")
+  {
+    terminal.clear();
+  }
+  else
+  {
+    terminal.println("Unknown Command. Type 'help' for assistance.");
+  }
+
+  terminal.flush();
+}
 
 BLYNK_WRITE(V1)
 {
@@ -33,18 +70,21 @@ extern "C" void app_main(void)
     esp_log_level_set("wifi_prov_scheme_ble", ESP_LOG_ERROR);
     esp_log_level_set("esp_netif_handlers", ESP_LOG_ERROR);
     esp_log_level_set("gpio", ESP_LOG_ERROR);
-
     wifi_init_sta("Wokwi-GUEST", "");
-
-    vTaskDelay(pdMS_TO_TICKS(1000));
+    vTaskDelay(pdMS_TO_TICKS(10));
 
     Blynk.begin(BLYNK_TOKEN, "protocol.electrocus.com", 8080);
-    tmr.setInterval(1000, []()
-                    { Blynk.virtualWrite(V0, BlynkMillis() / 1000); });
+
+
+    terminal.clear();
+    terminal.println("Hello from ESP32-IDF ");
+    terminal.println("This is a test message.");
+    terminal.flush();
+
     while (true)
     {
         Blynk.run();
-        tmr.run();
+        timer.run();
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }

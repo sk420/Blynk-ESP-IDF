@@ -24,19 +24,21 @@ public:
 
     bool connect()
     {
-        ESP_LOGI("BLYNK", "Connecting to %s:%u", domain, port);
+        BLYNK_LOG4("Connecting to ", domain, ":", port);
 
         struct sockaddr_in server_addr;
         struct hostent *server = gethostbyname(domain);
         if (server == NULL)
         {
-            ESP_LOGE("BLYNK", "DNS resolution failed for %s", domain);
+#ifdef BLYNK_DEBUG
+            BLYNK_LOG2("DNS resolution failed for %s", domain);
+#endif
             return false;
         }
 
         char ip_str[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, server->h_addr_list[0], ip_str, sizeof(ip_str));
-        ESP_LOGI("BLYNK", "Resolved IP: %s", ip_str);
+        // ESP_LOGI("BLYNK", "Resolved IP: %s", ip_str);
 
         server_addr.sin_family = AF_INET;
         server_addr.sin_port = htons(port);
@@ -46,14 +48,18 @@ public:
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
         if (sockfd < 0)
         {
-            ESP_LOGE("BLYNK", "Failed to create socket: errno=%d", errno);
+#ifdef BLYNK_DEBUG
+            BLYNK_LOG2("Failed to create socket: errno=%d", errno);
+#endif
             return false;
         }
 
         int res = ::connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
         if (res < 0)
         {
-            ESP_LOGE("BLYNK", "Socket connect failed: errno=%d", errno);
+#ifdef BLYNK_DEBUG
+            BLYNK_LOG2("Socket connect failed: errno=%d", errno);
+#endif
             ::close(sockfd);
             sockfd = -1;
             return false;
@@ -66,8 +72,9 @@ public:
 
         int one = 1;
         setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
-
-        ESP_LOGI("BLYNK", "Successfully connected to server.");
+#ifdef BLYNK_DEBUG
+        BLYNK_LOG1("Successfully connected to server.");
+#endif
         return true;
     }
 
@@ -77,21 +84,30 @@ public:
         {
             close(sockfd);
             sockfd = -1;
-            ESP_LOGI("BLYNK", "Socket disconnected.");
+#ifdef BLYNK_DEBUG
+            BLYNK_LOG1("Socket disconnected.");
+#endif
         }
     }
 
-    size_t read(void* buf, size_t len) {
+    size_t read(void *buf, size_t len)
+    {
         ssize_t rlen = ::recv(sockfd, buf, len, 0);
-        if (rlen < 0) {
-            if (errno == EWOULDBLOCK || errno == EAGAIN) {
+        if (rlen < 0)
+        {
+            if (errno == EWOULDBLOCK || errno == EAGAIN)
+            {
                 return 0;
             }
+#ifdef BLYNK_DEBUG
             BLYNK_LOG2("Read error: ", strerror(errno));
+#endif
             disconnect();
             return -1;
         }
+#ifdef BLYNK_DEBUG
         BLYNK_LOG2("Read bytes: ", rlen);
+#endif
         return rlen;
     }
 
@@ -100,10 +116,14 @@ public:
         ssize_t wlen = ::send(sockfd, buf, len, 0);
         if (wlen < 0)
         {
-            ESP_LOGE("BLYNK", "Send error: errno=%d", errno);
+#ifdef BLYNK_DEBUG
+            BLYNK_LOG2("Send error: errno=%d", errno);
+#endif
             return 0;
         }
-        ESP_LOGD("BLYNK", "Sent %d bytes", (int)wlen);
+#ifdef BLYNK_DEBUG
+        BLYNK_LOG1("Sent %d bytes", (int)wlen);
+#endif
         return wlen;
     }
 
@@ -112,17 +132,27 @@ public:
         return sockfd >= 0;
     }
 
-    int available() {
-        if (!connected()) return 0;
-    
+    int available()
+    {
+        if (!connected())
+            return 0;
+
         char buf;
         int ret = ::recv(sockfd, &buf, 1, MSG_PEEK | MSG_DONTWAIT);
-        if (ret > 0) return 1;
-        if (ret == 0) {
+        if (ret > 0)
+            return 1;
+        if (ret == 0)
+        {
+#ifdef BLYNK_DEBUG
             BLYNK_LOG1("Connection closed by server.");
+#endif
             disconnect();
-        } else if (errno != EWOULDBLOCK && errno != EAGAIN) {
+        }
+        else if (errno != EWOULDBLOCK && errno != EAGAIN)
+        {
+#ifdef BLYNK_DEBUG
             BLYNK_LOG2("recv error: ", strerror(errno));
+#endif
             disconnect();
         }
         return 0;
