@@ -4,10 +4,11 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 #include "wifi_connect.h"
-
+#include "config_b.h"
 // #define BLYNK_DEBUG
 #define BLYNK_PRINT stdout
-#define BLYNK_TOKEN "-------------------------" // Replace with your Blynk token
+#define BLYNK_TOKEN BLYNK_AUTH_TOKEN // Replace with your Blynk token
+#define BLYNK_SERVER BLYNK_CONFIG_SERVER
 
 #include "BlynkEspIDF.h"
 #include <BlynkWidgets.h>
@@ -65,7 +66,7 @@ extern "C" void app_main(void)
     wifi_begin();
     vTaskDelay(pdMS_TO_TICKS(10));
 
-    Blynk.begin(BLYNK_TOKEN, "server", 80);
+    Blynk.begin(BLYNK_TOKEN, BLYNK_SERVER, 8080);
 
     terminal.clear();
     terminal.println("Hello from ESP32-IDF ");

@@ -3,7 +3,7 @@
 
 #include <Blynk/BlynkApi.h>
 
-// #define BLYNK_INFO_DEVICE  "ESP32-IDF"
+
 #define BLYNK_INFO_CPU "ESP32"
 #define BLYNK_INFO_CONNECTION "WiFi"
 

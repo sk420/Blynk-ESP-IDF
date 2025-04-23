@@ -446,7 +446,7 @@
 
     #else
 
-        #define BLYNK_INFO_DEVICE  "Custom platform"
+        #define BLYNK_INFO_DEVICE  "ESP-IDF"
 
     #endif
 
