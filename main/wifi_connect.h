@@ -4,7 +4,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void wifi_init_sta(const char *ssid, const char *pass);
+
 void wifi_begin(void);
 void get_device_service_name(char *service_name, size_t max, const char *prefix);
 void wifi_reset(void);

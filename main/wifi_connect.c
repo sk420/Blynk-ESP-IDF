@@ -21,7 +21,6 @@
 
 /* Signal Wi-Fi events on this event-group */
 const EventBits_t WIFI_CONNECTED_EVENT = BIT0;
-const EventBits_t WIFI_DISCONNECTED_EVENT = BIT1;
 static EventGroupHandle_t wifi_event_group;
 
 #define USE_WOKWI 1 // Set to 1 to use Wokwi simulation
@@ -86,7 +85,7 @@ static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_
             break;
         case WIFI_EVENT_STA_DISCONNECTED:
             ESP_LOGI(TAG, "Disconnected. Connecting to the AP again...");
-            xEventGroupSetBits(wifi_event_group, WIFI_DISCONNECTED_EVENT);
+            xEventGroupClearBits(wifi_event_group, WIFI_CONNECTED_EVENT);
             esp_wifi_connect();
             break;
         default:
@@ -223,7 +222,7 @@ void wifi_begin(void)
 
 #else
 
-void wifi_init_sta(const char *ssid, const char *pass)
+void wifi_begin(void)
 {
     /* Initialize NVS partition */
     esp_err_t ret = nvs_flash_init();

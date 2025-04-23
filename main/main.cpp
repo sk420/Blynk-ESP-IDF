@@ -6,17 +6,10 @@
 #include "wifi_connect.h"
 
 // #define BLYNK_DEBUG
-// #define BLYNK_PRINT stdout
-#define BLYNK_NO_BUILTIN
+#define BLYNK_PRINT stdout
+#define BLYNK_TOKEN "-------------------------" // Replace with your Blynk token
 
-#include "BlynkApiEsp32.h"
-#include "BlynkSocketEsp32.h"
-
-#define BLYNK_TOKEN "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // Replace with your Blynk token
-
-static BlynkTransportEsp32 _blynkTransport;
-static BlynkSocket Blynk(_blynkTransport);
-
+#include "BlynkEspIDF.h"
 #include <BlynkWidgets.h>
 
 BlynkTimer timer;
@@ -37,7 +30,6 @@ BLYNK_WRITE(V0)
     terminal.println("- restart: Restart the device");
     terminal.println("- clear: Clear the terminal");
   }
-
   else if (receivedCommand == "restart")
   {
     terminal.println("System Restarting");
@@ -70,7 +62,7 @@ extern "C" void app_main(void)
     esp_log_level_set("wifi_prov_scheme_ble", ESP_LOG_ERROR);
     esp_log_level_set("esp_netif_handlers", ESP_LOG_ERROR);
     esp_log_level_set("gpio", ESP_LOG_ERROR);
-    wifi_init_sta("Wokwi-GUEST", "");
+    wifi_begin();
     vTaskDelay(pdMS_TO_TICKS(10));
 
     Blynk.begin(BLYNK_TOKEN, "server", 80);

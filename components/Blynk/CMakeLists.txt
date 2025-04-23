@@ -4,6 +4,7 @@ idf_component_register(
         "blynk-lib/utility/utility.cpp"
         "blynk-lib/utility/BlynkHandlers.cpp"
         "blynk-lib/utility/BlynkTimer.cpp"
+        "BlynkEspIDF.cpp"
         
         
     INCLUDE_DIRS 
