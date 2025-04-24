@@ -62,7 +62,7 @@ void            BlynkFatal() BLYNK_NORETURN;
 
 #ifdef BLYNK_PRINT
 
-    #if defined(CONFIG_IDF_TARGET_ESP32)
+    #if defined(CONFIG_IDF_TARGET_ESP32) || defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
 
         #include <assert.h>
         #include <stdio.h>
