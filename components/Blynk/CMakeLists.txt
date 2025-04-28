@@ -13,6 +13,6 @@ idf_component_register(
         "blynk-lib/utility"
         "blynk-lib/Blynk"
 
-    REQUIRES lwip freertos esp_timer esp_rom
+    REQUIRES lwip freertos esp_timer esp_rom Print
 )
 add_compile_options(-Wno-deprecated-copy)

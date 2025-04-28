@@ -4,6 +4,7 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 #include "wifi_connect.h"
+#include "WString.h"
 #include "config_b.h"
 // #define BLYNK_DEBUG
 #define BLYNK_PRINT stdout
@@ -18,7 +19,7 @@ WidgetTerminal terminal(V0);
 
 BLYNK_WRITE(V0)
 {
-  std::string receivedCommand = param.asStr();
+  String receivedCommand = param.asString();
      
   terminal.print("Received Command: ");
   terminal.println(receivedCommand);
