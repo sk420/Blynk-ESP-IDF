@@ -62,7 +62,7 @@ public:
 
     BlynkTime() : mTime(-1) {}
 
-    BlynkTime(const BlynkTime& t) : mTime(t.mTime) {}
+    // BlynkTime(const BlynkTime& t) : mTime(t.mTime) {}
 
     BlynkTime(long seconds) : mTime(seconds % BLYNK_SECS_PER_DAY) {}
 

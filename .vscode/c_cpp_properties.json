@@ -7,15 +7,25 @@
             "includePath": [
                 "${config:idf.espIdfPath}/components/**",
                 "${config:idf.espIdfPathWin}/components/**",
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/components/**",
+                "${workspaceFolder}/components/Blynk/blynk-lib/Blynk/*",
+                "${workspaceFolder}/components/Blynk/blynk-lib/utility/*",
+                "${workspaceFolder}/components/Blynk/blynk-lib/*",
+                "${workspaceFolder}/components/Blynk/include/*"
             ],
             "browse": {
                 "path": [
                     "${config:idf.espIdfPath}/components",
                     "${config:idf.espIdfPathWin}/components",
-                    "${workspaceFolder}"
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/components/",
+                    "${workspaceFolder}/components/Blynk/blynk-lib/Blynk",
+                    "${workspaceFolder}/components/Blynk/blynk-lib/utility",
+                    "${workspaceFolder}/components/Blynk/blynk-lib",
+                    "${workspaceFolder}/components/Blynk/include"
                 ],
-                "limitSymbolsToIncludedHeaders": true
+                "limitSymbolsToIncludedHeaders": false
             }
         }
     ],

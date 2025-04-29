@@ -8,7 +8,7 @@
 #include "config_b.h"
 #include "esp_wifi.h"
 
-//  #define BLYNK_DEBUG
+// #define BLYNK_DEBUG
 #define BLYNK_PRINT stdout
 #define BLYNK_TOKEN BLYNK_AUTH_TOKEN // Replace with your Blynk token
 #define BLYNK_SERVER BLYNK_CONFIG_SERVER
@@ -21,6 +21,8 @@ WidgetTerminal terminal(V0);
 
 BLYNK_WRITE(V0)
 {
+  terminal.clear();
+  terminal.flush();
   String receivedCommand = param.asString();
   receivedCommand.trim();
   receivedCommand.toLowerCase();
@@ -37,8 +39,8 @@ BLYNK_WRITE(V0)
     wifi_ap_record_t ap_info;
     if (esp_wifi_sta_get_ap_info(&ap_info) == ESP_OK)
     {
-      terminal.printf( "Connected to SSID: %s\n", ap_info.ssid);
-      terminal.printf( "Signal strength (RSSI): %d dBm\n", ap_info.rssi);
+      terminal.printf("Connected to SSID: %s\n", ap_info.ssid);
+      terminal.printf("Signal strength (RSSI): %d dBm\n", ap_info.rssi);
     }
     else
     {
@@ -68,6 +70,23 @@ BLYNK_WRITE(V1)
 {
   printf("Got a value: %s\n", param.asString());
 }
+BLYNK_WRITE(V2)
+{
+  GpsParam gps(param);
+
+  printf("Latitude: %f\n", gps.getLat());
+  printf("Longitude: %f\n", gps.getLon());
+  printf("Speed: %f\n", gps.getSpeed());
+  printf("Altitude: %f\n", gps.getAltitude());
+}
+BLYNK_WRITE(V3)
+{
+ // Acceleration data
+  float x = param[0].asFloat();
+  float y = param[1].asFloat();
+  float z = param[2].asFloat();
+  printf("Acceleration: X=%f, Y=%f, Z=%f\n", x, y, z);
+}
 
 extern "C" void app_main(void)
 {
@@ -81,6 +100,9 @@ extern "C" void app_main(void)
   vTaskDelay(pdMS_TO_TICKS(10));
 
   Blynk.begin(BLYNK_TOKEN, BLYNK_SERVER, 8080);
+
+  Blynk.setProperty(V1,"onLabel", "Y");
+  Blynk.setProperty(V1,"offLabel", "N");
 
   terminal.clear();
   terminal.println("Hello from ESP32-IDF ");

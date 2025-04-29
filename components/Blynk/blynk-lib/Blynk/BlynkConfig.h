@@ -65,7 +65,7 @@
 //#define BLYNK_DEBUG
 
 // Uncomment to force-enable 128 virtual pins
-//#define BLYNK_USE_128_VPINS
+#define BLYNK_USE_128_VPINS
 
 // Uncomment to disable fancy logo
 //#define BLYNK_NO_FANCY_LOGO

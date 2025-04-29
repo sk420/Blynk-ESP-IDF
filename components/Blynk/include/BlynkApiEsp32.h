@@ -7,10 +7,6 @@
 #define BLYNK_INFO_CPU "ESP32"
 #define BLYNK_INFO_CONNECTION "WiFi"
 
-#ifndef BLYNK_INFO_DEVICE
-#define BLYNK_INFO_DEVICE "Linux"
-#endif
-
 template <class Proto>
 BLYNK_FORCE_INLINE void BlynkApi<Proto>::sendInfo()
 {

@@ -15,4 +15,3 @@ idf_component_register(
 
     REQUIRES lwip freertos esp_timer esp_rom Print
 )
-add_compile_options(-Wno-deprecated-copy)
