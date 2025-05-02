@@ -2,3 +2,5 @@ build/
 sdkconfig
 sdkconfig.old
 main/config_b.h
+dependencies.lock
+.vscode/
