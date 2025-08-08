@@ -3,4 +3,5 @@ sdkconfig
 sdkconfig.old
 main/config_b.h
 dependencies.lock
+managed_components/
 .vscode/
