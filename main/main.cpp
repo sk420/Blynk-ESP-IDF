@@ -30,7 +30,7 @@ BLYNK_WRITE(V0)
   if (receivedCommand == "help")
   {
     terminal.println("Available Commands:");
-    terminal.println("- status: Check device status");
+    terminal.println("- status: Chec device status");
     terminal.println("- restart: Restart the device");
     terminal.println("- clear: Clear the terminal");
   }
