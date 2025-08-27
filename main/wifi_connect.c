@@ -259,7 +259,7 @@ void wifi_begin(void)
 
     // printf("ssid %s", ssid);
     // printf("pass %s", pass);
-    // Set WiFi configuration
+    // Set WiFi  configuration
     wifi_config_t wifi_config = {
         .sta = {
             .ssid = "Wokwi-GUEST",
